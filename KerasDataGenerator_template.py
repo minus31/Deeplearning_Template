@@ -1,5 +1,5 @@
 import numpy as np
-import keras
+import tensorflow as tf
 import cv2
 from augmentation import Augment
 from preprocess import input_preprocess, label_preprocess
@@ -14,7 +14,7 @@ aug_params = {
 }
 
 
-class DataGeneratorSample(keras.utils.Sequence):
+class DataGeneratorSample(tf.keras.utils.Sequence):
     'Generate data for Keras'
 
     def __init__(self, file_list, 
@@ -99,4 +99,3 @@ class DataGeneratorSample(keras.utils.Sequence):
             X[idx], y[idx] = self.__get_data(img_path=img_path, 
                                                label_path=label_path)             
         return X, y
-
