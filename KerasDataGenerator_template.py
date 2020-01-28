@@ -13,20 +13,35 @@ aug_params = {
     "gamma_range": (0.5, 1.5)
 }
 
+def get_stopfile(filename='stopfiles.txt')
+    with open(filename, 'r') as f:
+
+        stopfiles = f.read()
+        stopfiles = stopfiles.split("\n")
+
+    return stopfiles 
+
 
 class DataGeneratorSample(tf.keras.utils.Sequence):
     'Generate data for Keras'
 
-    def __init__(self, file_list, 
+    def __init__(self, 
+                 file_list, 
                  batch_size=32, 
                  dim=(512, 512), 
                  n_channels=3, 
                  shuffle=True, 
                  augment=False, 
+                 stopfile=None,
                  train=True):
 
         self.dim = dim
         self.batch_size = batch_size
+     
+        if stopfile:
+            sf = get_stopfile(filename=stopfile)
+            file_list = [f for f in file_list if f not in sf]
+            
         self.file_list = np.array(file_list)
         self.total_numOfFiles = self.file_list.shape[0]
         self.n_channels = n_channels
